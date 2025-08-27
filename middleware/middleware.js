@@ -5,7 +5,7 @@ dotenv.config();
 export const verify = async (req, res,next) => {
     const header = req.headers['authorization'];
     const token = header && header.split(" ")[1];
-    console.log(token);
+    //console.log(token);
     
     if(!token) return res.status(401).json({ message: 'No token provided' });
     try {
