@@ -38,11 +38,11 @@ const react = async (req, res) => {
 const updateReaction = async (req, res) => {
   try {
     const user = req.user;
-    const { post_id, reaction } = req.body;
-    if (!reaction || !post_id ) {
+    const { reaction_id,reaction } = req.body;
+    if (!reaction || !reaction_id ) {
       return res
         .status(400)
-        .json({ error: "post_id and reaction are required!" });
+        .json({ error: "reaction_id and reaction are required!" });
     }
     if (reaction!='like' && reaction!='dislike') {
         return res
@@ -50,9 +50,9 @@ const updateReaction = async (req, res) => {
         .json({ error: "Invalid reaction" });
     }
 
-    const old_reaction = await db("reactions").where({ post_id,user_id:user.user_id }).first();
+    const old_reaction = await db("reactions").where({ reaction_id }).first();
     if (!old_reaction) {
-      return res.status(404).json({ error: "comment not found" });
+      return res.status(404).json({ error: "reaction not found" });
     }
     if (old_reaction.user_id != user.user_id) {
       return res.status(403).json({ error: "Unauthorised!" });
@@ -63,7 +63,7 @@ const updateReaction = async (req, res) => {
         type:reaction,
         updated_at: db.fn.now(),
       })
-      .where({ reaction_id:old_reaction.reaction_id })
+      .where({ reaction_id:reaction_id })
       .returning(["post_id", "user_id", "type", "created_at"]);
     return res.status(200).json({
       result,

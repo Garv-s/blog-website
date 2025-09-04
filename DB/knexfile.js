@@ -1,14 +1,16 @@
+import dotenv from "dotenv"
+dotenv.config()
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 const exports = {
 
   development: {
-    client: 'pg',
+    client: process.env.DB_CLIENT,
     connection: {
-      database: 'blog_website_local',
-      user:     'postgres',
-      password: 'root'
+      database: process.env.DB_NAME,
+      user:     process.env.DB_USER,
+      password: process.env.DB_PASSWORD
     },
     pool: {
       min: 2,

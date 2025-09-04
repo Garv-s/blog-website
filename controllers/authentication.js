@@ -3,6 +3,7 @@ dotenv.config();
 import db from "../DB/db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import logger from "../utils/logger.js";
 
 const generateLoginToken = (user) => {
   const JWT_KEY = process.env.JWT_KEY;
